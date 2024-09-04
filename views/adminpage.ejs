@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminpage</title>
+</head>
+<body>
+    <p>Student lists</p>
+    <script>
+       document.addEventListener("DOMContentLoaded",()=>{
+        fetch("http://localhost:3000/getstudents")
+        .then(response =>response.json())
+        .then(data =>{
+            if(Array.isArray(data)){
+                data.map(e=>{
+                    let div = document.createElement("div");
+                    div.innerHTML = `${e.name}-${e.age}-${e.class}`;
+                    document.body.appendChild(div);
+                    console.log("i am array");
+                }
+                ); 
+            }
+            else{
+                for(let i;i<data.length;i++){
+                    let div = document.createElement("div");
+                    div.innerHTML = data[i].name;
+                    document.body.appendChild(div);
+                    console.log("i am object");
+                }
+            }
+        })
+        .catch((err)=>{
+            let p = document.createElement("p");
+            p.textContent = err;
+            document.body.appendChild(p);
+            p.style.color = "red";
+        });
+       });
+    </script>
+</body>
+</html>
